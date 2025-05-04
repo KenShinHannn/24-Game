@@ -54,7 +54,7 @@ export const solveAnswer24Game = async (
           try {
             newNum = eval(`${a}${op}${b}`);
           } catch (e) {
-            console.error("Error evaluating operation: ", `${a}${op}${b}`, e);  
+            // console.error("Error evaluating operation: ", `${a}${op}${b}`, e);  
             continue;
           }
 
@@ -99,16 +99,4 @@ export const createAnswer = async (data: CreateAnswerDto[]) => {
   return result;
 };
 
-export const updateAnswer = async (id: number, data: UpdateAnswerDto) => {
-  const result = await db
-    .update(answers)
-    .set(data)
-    .where(eq(answers.answer_id, id))
-    .returning();
-  return result;
-};
 
-export const deleteAnswer = async (id: number) => {
-  const result = await db.delete(answers).where(eq(answers.answer_id, id)).returning();
-  return { message: "Answer deleted successfully", result };
-};
