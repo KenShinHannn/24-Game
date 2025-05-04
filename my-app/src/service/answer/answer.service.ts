@@ -32,7 +32,7 @@ export const solveAnswer24Game = async (
         }
       } catch (e) {
         console.error("Error evaluating expression: ", expressions[0], e);
-        throw e
+        throw e;
       }
     }
 
@@ -54,7 +54,7 @@ export const solveAnswer24Game = async (
           try {
             newNum = eval(`${a}${op}${b}`);
           } catch (e) {
-            console.error("Error evaluating operation: ", `${a}${op}${b}`, e);  
+            console.error("Error evaluating operation: ", `${a}${op}${b}`, e);
             continue;
           }
 
@@ -76,18 +76,24 @@ export const solveAnswer24Game = async (
 };
 
 export const getAnswer = async (numbers: number[]) => {
-  const key = numbers.slice().sort((a, b) => a - b).join(",");
-  
-  const cachedAnswer = await db.select().from(answers).where(eq(answers.number, key));
+  const key = numbers
+    .slice()
+    .sort((a, b) => a - b)
+    .join(",");
+
+  const cachedAnswer = await db
+    .select()
+    .from(answers)
+    .where(eq(answers.number, key));
 
   if (cachedAnswer.length > 0) {
-    return cachedAnswer.map(r => r.results);
+    return cachedAnswer.map((r) => r.results);
   }
 
   const solution = solveAnswer24Game(numbers);
-  const values = (await solution).map(s => ({ number: key, results: s }));
+  const values = (await solution).map((s) => ({ number: key, results: s }));
 
-  if (values.length > 0) {    
+  if (values.length > 0) {
     await createAnswer(values);
   }
 
@@ -98,5 +104,3 @@ export const createAnswer = async (data: CreateAnswerDto[]) => {
   const result = await db.insert(answers).values(data).returning();
   return result;
 };
-
-

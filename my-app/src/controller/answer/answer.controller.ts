@@ -1,20 +1,30 @@
 import { Context } from "hono";
-import { z } from 'zod';
+import { z } from "zod";
 import { getAnswer } from "../../service/answer/answer.service";
 import { extractTokenFromHeader, verifyJwtToken } from "../../utils/jwt";
 
 export const getAnswerController = async (c: Context) => {
-    const token = extractTokenFromHeader(c); 
+  const token = extractTokenFromHeader(c);
 
-    if (!token) {
-      return c.json({ error: 'Unauthorized access. Please provide a valid token.' }, 401);
-    }
+  if (!token) {
+    return c.json(
+      { error: "Unauthorized access. Please provide a valid token." },
+      401
+    );
+  }
   let result = verifyJwtToken(token, false);
   if (!result.success) {
     result = verifyJwtToken(token, true);
-    
+
     if (!result.success) {
-      return c.json({ error: result.message || 'Unauthorized access. Please provide a valid refresh token.' }, 401);
+      return c.json(
+        {
+          error:
+            result.message ||
+            "Unauthorized access. Please provide a valid refresh token.",
+        },
+        401
+      );
     }
   }
 
