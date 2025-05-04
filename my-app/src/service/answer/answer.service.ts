@@ -54,7 +54,7 @@ export const solveAnswer24Game = async (
           try {
             newNum = eval(`${a}${op}${b}`);
           } catch (e) {
-            // console.error("Error evaluating operation: ", `${a}${op}${b}`, e);  
+            console.error("Error evaluating operation: ", `${a}${op}${b}`, e);  
             continue;
           }
 
