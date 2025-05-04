@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { serve } from '@hono/node-server' // 👈 สำคัญ
+import { serve } from '@hono/node-server' 
 import answerRoute from './routes/answer/answer.route'
 import authRoute from './routes/auth/auth.route'
 

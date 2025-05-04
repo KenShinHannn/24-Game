@@ -12,7 +12,7 @@ export async function createUser(username: string, password: string) {
   }
   
   const existingUser = await db.select().from(users).where(eq(users.username, username)).limit(1);
-  if (existingUser.length > 0) {
+  if (existingUser) {
     throw new Error("Username is already taken.");
   }
   const hashed = await bcrypt.hash(password, 10);

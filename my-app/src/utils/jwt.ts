@@ -62,9 +62,9 @@ export function verifyJwtToken(
 export const extractTokenFromHeader = (c: Context): string | null => {
   const authHeader = c.req.header('Authorization');
   if (!authHeader) {
-    return null; // ถ้าไม่มี Authorization header
+    return null; 
   }
 
   const token = authHeader.replace('Bearer ', '');
-  return token ? token : null; // ถ้ามี token ก็คืนค่าออกไป
+  return token ? token : null; 
 };

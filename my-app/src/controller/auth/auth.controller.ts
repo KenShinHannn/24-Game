@@ -6,16 +6,22 @@ import { CreateUserDTO, SignInDTO } from "../../dto/auth/auth.dto";
 export const signup = async (c: Context) => {
   const body = await c.req.json();
 
-  const validation = CreateUserDTO.safeParse(body);
+  const validationResult = CreateUserDTO.safeParse(body);
   
-  if (!validation.success) {
-    const errors = validation.error.errors.map(err => err.message).join(", ");
-    return c.json({ error: errors }, 400);
+  if (!validationResult.success) {
+    const errors = validationResult.error.errors.map(err => err.message).join(", ");
+    return c.json({ error: errors }, 400);  
   }
 
-  const { username, password } = validation.data;
-  await createUser(username, password);
-  return c.json({ message: "You have been signed up" });
+  const { username: newUser, password: newPassword } = validationResult.data; 
+
+  try {
+    await createUser(newUser, newPassword);  
+    return c.json({ message: "You have been signed up" });
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : "An unknown error occurred";
+    return c.json({ error: errorMessage }, 400);  
+  }
 };
 
 export const signin = async (c: Context) => {

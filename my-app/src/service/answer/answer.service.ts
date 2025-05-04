@@ -1,5 +1,5 @@
 import { eq } from "drizzle-orm";
-import { CreateAnswerDto, UpdateAnswerDto } from "../../dto/answer/answer.dto";
+import { CreateAnswerDto } from "../../dto/answer/answer.dto";
 import { db } from "../../middleware/db/client";
 import { answers } from "../../schema/answer/answer.schema";
 
